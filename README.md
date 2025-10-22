@@ -484,13 +484,11 @@ except grpc.RpcError as e:
 ```
 
 ### Logging Levels
-```python
 import logging
 
 # Configure logging levels
 logging.getLogger("server").setLevel(logging.INFO)    # Server operations
 logging.getLogger("client").setLevel(logging.WARNING) # Client errors only
-```
 
 ## 🔮 Development & Extension
 
