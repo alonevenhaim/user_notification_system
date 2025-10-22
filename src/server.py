@@ -196,10 +196,14 @@ async def serve(port: int = 50051) -> None:
     logger.info("Server started successfully. Press Ctrl+C to stop.")
     try:
         await server.wait_for_termination()
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, asyncio.CancelledError):
         logger.info("Server shutting down...")
-        await server.stop(5)
+        await server.stop(grace=5)
+        logger.info("Server stopped gracefully.")
 
 
 if __name__ == '__main__':
-    asyncio.run(serve())
+    try:
+        asyncio.run(serve())
+    except KeyboardInterrupt:
+        pass  # Gracefully handle Ctrl+C without traceback
