@@ -123,10 +123,10 @@ python -m pip --version
 *Note: gRPC files are already included, but you can regenerate them if needed.*
 
 ```bash
-python -m grpc_tools.protoc \
-  -I./proto \
-  --python_out=./src \
-  --grpc_python_out=./src \
+python -m grpc_tools.protoc `
+  -I./proto `
+  --python_out=./src `
+  --grpc_python_out=./src `
   ./proto/notification_service.proto
 ```
 
