@@ -595,7 +595,7 @@ export DB_CONNECTION_STRING="postgresql://..."
 ### Development Setup
 ```bash
 # Fork and clone the repository
-git clone https://github.com/yourusername/user_notification_system.git
+git clone https://github.com/alonevenhaim/user_notification_system.git
 
 # Create feature branch
 git checkout -b feature/new-feature
