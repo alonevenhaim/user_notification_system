@@ -21,6 +21,9 @@ python demo.py
 
 # Run tests
 pytest tests/ -v
+
+# Start the server
+python src/server.py
 ```
 
 ## 🏗️ System Architecture
@@ -67,39 +70,37 @@ The system implements a scalable, asynchronous architecture with the following c
 ### Prerequisites
 ```bash
 # Ensure Python 3.8+ is installed
+# On macOS/Linux:
 python3 --version
 
+# On Windows:
+python --version
+
 # Ensure pip is available
-python3 -m pip --version
+python -m pip --version
 ```
 
 ### Step-by-Step Installation
 
 1. **Navigate to Project Directory**
    ```bash
-   cd user_notification_system
-   ```
+# Navigate to project directory
+cd user_notification_system
 
-2. **Create Virtual Environment**
-   ```bash
-   python3 -m venv venv
-   
-   # Activate virtual environment
-   # On macOS/Linux:
-   source venv/bin/activate
-   
-   # On Windows:
-   venv\Scripts\activate
-   ```
+# Create virtual environment
+python -m venv venv
 
-3. **Install Dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+# Activate virtual environment
+venv\Scripts\activate.bat
 
-4. **Verify Installation**
-   ```bash
-   # Run a quick test to verify setup
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the demo
+python demo.py
+
+# Run tests
+pytest tests/ -v
    python -c "import grpc; import pytest; print('✅ Installation successful!')"
    ```
 
@@ -258,7 +259,7 @@ tests/
 | **Integration** | Integration | 2 | Complete workflows, multiple clients |
 | **Total** | | **9** | **100% scenario coverage** |
 
-## � API Reference
+##  API Reference
 
 ### Protocol Buffers Schema
 
@@ -554,7 +555,33 @@ RUN pip install -r requirements.txt
 COPY src/ ./src/
 EXPOSE 50051
 CMD ["python", "src/server.py"]
-```
+
+async def serve(port: int = 50051) -> None:
+    """
+    Start the gRPC server.
+    
+    Args:
+        port: Port number to bind the server to (default: 50051)
+    """
+    server = aio.server(ThreadPoolExecutor(max_workers=10))
+    
+    # Add our service implementation
+    service_impl = NotificationServiceImpl()
+    add_NotificationServiceServicer_to_server(service_impl, server)
+    
+    # Bind to port - use 0.0.0.0 for IPv4 on Windows compatibility
+    listen_addr = f'0.0.0.0:{port}'
+    server.add_insecure_port(listen_addr)
+    
+    logger.info(f"Starting server on {listen_addr}")
+    await server.start()
+    
+    logger.info("Server started successfully. Press Ctrl+C to stop.")
+    try:
+        await server.wait_for_termination()
+    except KeyboardInterrupt:
+        logger.info("Server shutting down...")
+        await server.stop(5)
 
 **Environment Variables:**
 ```bash
@@ -598,7 +625,7 @@ This project is released under the MIT License. See LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
-Built with ❤️ by a test automation engineer with 20 years of experience, demonstrating:
+Built by Alon Even-Haim, Senior Test Automation Engineer, demonstrating:
 - **Advanced async Python patterns**
 - **Production-ready gRPC services** 
 - **Comprehensive test automation strategies**

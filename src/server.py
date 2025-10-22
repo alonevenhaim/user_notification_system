@@ -176,23 +176,23 @@ class NotificationServiceImpl(NotificationServiceServicer):
 async def serve(port: int = 50051) -> None:
     """
     Start the gRPC server.
-    
+
     Args:
         port: Port number to bind the server to (default: 50051)
     """
     server = aio.server(ThreadPoolExecutor(max_workers=10))
-    
+
     # Add our service implementation
     service_impl = NotificationServiceImpl()
     add_NotificationServiceServicer_to_server(service_impl, server)
-    
-    # Bind to port
-    listen_addr = f'[::]:{port}'
+
+    # Bind to port - use 0.0.0.0 for Windows compatibility
+    listen_addr = f'0.0.0.0:{port}'
     server.add_insecure_port(listen_addr)
-    
+
     logger.info(f"Starting server on {listen_addr}")
     await server.start()
-    
+
     logger.info("Server started successfully. Press Ctrl+C to stop.")
     try:
         await server.wait_for_termination()
