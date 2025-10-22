@@ -248,6 +248,9 @@ allure serve allure-results
 
 **Install Allure (Optional):**
 ```bash
+# Windows (using Scoop)
+scoop install allure
+
 # macOS
 brew install allure
 
