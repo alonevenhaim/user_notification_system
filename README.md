@@ -5,7 +5,7 @@
 ![Tests](https://img.shields.io/badge/Tests-9%20Passing-brightgreen.svg)
 ![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen.svg)
 
-A production-ready, asynchronous gRPC-based user notification system that handles client connection management with expert-level test automation. Built by a test automation engineer with 20 years of experience, this system demonstrates advanced async programming, comprehensive testing strategies, and clean architecture principles.
+A production-ready, asynchronous gRPC-based user notification system that handles client connection management with expert-level test automation. Built by Alon Even-Haim, Senior Test Automation Engineer, this system demonstrates advanced async programming, comprehensive testing strategies, and clean architecture principles.
 
 ## 🚀 Quick Start
 
