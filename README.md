@@ -84,23 +84,38 @@ python -m pip --version
 
 1. **Navigate to Project Directory**
    ```bash
-# Navigate to project directory
-cd user_notification_system
+   cd user_notification_system
+   ```
 
-# Create virtual environment
-python -m venv venv
+2. **Create Virtual Environment**
+   ```bash
+   # On macOS/Linux:
+   python3 -m venv venv
+   
+   # On Windows:
+   python -m venv venv
+   ```
 
-# Activate virtual environment
-venv\Scripts\activate.bat
+3. **Activate Virtual Environment**
+   ```bash
+   # On macOS/Linux:
+   source venv/bin/activate
+   
+   # On Windows (PowerShell):
+   .\venv\Scripts\Activate.ps1
+   
+   # On Windows (CMD):
+   venv\Scripts\activate.bat
+   ```
 
-# Install dependencies
-pip install -r requirements.txt
+4. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-# Run the demo
-python demo.py
-
-# Run tests
-pytest tests/ -v
+5. **Verify Installation**
+   ```bash
+   # Run a quick test to verify setup
    python -c "import grpc; import pytest; print('✅ Installation successful!')"
    ```
 
