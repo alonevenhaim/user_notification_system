@@ -346,18 +346,12 @@ class NotificationClient:
 
 ### Basic Workflow
 ```python
-# Client connects
-await client.send_hello("alice")
-# Result: alice → "connected"
+# Client sends Hello
+await client.send_hello("client_1")
 
-# Check status  
-status = await client.get_client_status("alice")
-# Result: {"alice": "connected"}
-
-# Client disconnects
-await client.send_goodbye("alice") 
-# Result: alice → "disconnected"
-```
+# Server processes (from server.py)
+if message_type == MessageType.HELLO:
+    self._client_statuses[client_id] = "connected"  # ✅ Marks as connected
 
 ### Multiple Clients
 ```python
