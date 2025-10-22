@@ -1,0 +1,6 @@
+allure-python-commons
+grpcio
+grpcio-tools
+pytest
+pytest-asyncio
+allure-pytest

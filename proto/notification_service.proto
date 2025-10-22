@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package notification_service;
+
+// Service definition for the User Notification System
+service NotificationService {
+  // Send a message (Hello or Goodbye) for a client
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  
+  // Get the connection status of clients
+  rpc GetClientStatus(GetClientStatusRequest) returns (GetClientStatusResponse);
+}
+
+// Request message for sending a message
+message SendMessageRequest {
+  string client_id = 1;
+  MessageType message_type = 2;
+}
+
+// Response message for sending a message
+message SendMessageResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Request message for getting client status
+message GetClientStatusRequest {
+  // Optional: if empty, returns all clients; otherwise returns specific client
+  string client_id = 1;
+}
+
+// Response message for getting client status
+message GetClientStatusResponse {
+  map<string, string> client_statuses = 1;
+}
+
+// Enum for message types
+enum MessageType {
+  UNKNOWN = 0;
+  HELLO = 1;
+  GOODBYE = 2;
+}
