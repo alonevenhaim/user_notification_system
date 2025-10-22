@@ -188,7 +188,32 @@ async def serve(port: int = 50051) -> None:
 
     # Bind to port - use 0.0.0.0 for Windows compatibility
     listen_addr = f'0.0.0.0:{port}'
-    server.add_insecure_port(listen_addr)
+    
+    try:
+        server.add_insecure_port(listen_addr)
+    except RuntimeError as e:
+        error_message = str(e)
+        if "Failed to bind" in error_message or "address" in error_message.lower():
+            logger.error("=" * 70)
+            logger.error(f"❌ FAILED TO START SERVER")
+            logger.error("=" * 70)
+            logger.error(f"Port {port} is already in use!")
+            logger.error("")
+            logger.error("Possible causes:")
+            logger.error("  • Another instance of this server is already running")
+            logger.error(f"  • Another application is using port {port}")
+            logger.error("")
+            logger.error("Solutions:")
+            logger.error("  • Stop the other server instance")
+            logger.error("  • Use a different port: python src/server.py --port 8080")
+            logger.error("")
+            logger.error("To find what's using the port:")
+            logger.error(f"  • Windows: netstat -ano | findstr :{port}")
+            logger.error(f"  • Linux/Mac: lsof -i :{port}")
+            logger.error("=" * 70)
+            raise SystemExit(1)
+        else:
+            raise
 
     logger.info(f"Starting server on {listen_addr}")
     await server.start()
@@ -203,7 +228,19 @@ async def serve(port: int = 50051) -> None:
 
 
 if __name__ == '__main__':
+    import sys
+    
+    # Parse port from command line arguments
+    port = 50051
+    if len(sys.argv) > 1:
+        try:
+            if sys.argv[1] == '--port' and len(sys.argv) > 2:
+                port = int(sys.argv[2])
+                logger.info(f"Using custom port: {port}")
+        except ValueError:
+            logger.error("Invalid port number. Using default port 50051")
+    
     try:
-        asyncio.run(serve())
+        asyncio.run(serve(port=port))
     except KeyboardInterrupt:
         pass  # Gracefully handle Ctrl+C without traceback
